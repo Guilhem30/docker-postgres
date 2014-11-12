@@ -11,7 +11,7 @@ Postgresql docker
 
     docker run -d --name yourinstancename yourcontainername:version
 
-postgresql will autostart and run
+postgresql will autostart and run.
 superuser is docker with password docker
 
 ##Get a shell inside  

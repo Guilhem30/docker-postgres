@@ -22,7 +22,7 @@ superuser is docker with password docker
 ## Get inside with a shell
 If your postgres container isn't ready yet or you just want to look around with a shell
 
-    docker run --name mydb -t -i odoo:v1 /bin/bash
+    docker run --name mydb -t -i postgresql:v1 /bin/bash
 
 images are build from [`phusion/baseimage`](https://github.com/phusion/baseimage-docker), you can connect to them through ssh if you expose port 22.
 my dockerfile include all public keys stored in pubkeys dir.

@@ -11,14 +11,19 @@ Postgresql docker
 
     docker run -d --name your_instance_name yourcontainername:version
 
-postgresql will autostart and run.
+postgresql will autostart and run as a daemon.
 superuser is docker with password docker
 
-##Get a shell inside  
-	
-    docker exec -it your_instance_name bash
+## Get inside with a shell
+If your postgres container isn't ready yet or you just want to look around with a shell
 
-or use ssh :
-Put your public key in the pubkeys directory instead of mine and expose the port to the host with
+    docker run --name myodoo -t -i odoo:v1 /bin/bash
 
-    docker run -d --name your_instance_name -p your_port_number:22 your_container_name:version
+images are build from [`phusion/baseimage`](https://github.com/phusion/baseimage-docker), you can connect to them through ssh if you expose port 22.
+my dockerfile include all public keys stored in pubkeys dir.
+
+You can also just use docker exec to run a bash process in an existing container
+
+    docker exec -t -i container_name bash
+
+

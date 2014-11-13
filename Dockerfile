@@ -15,6 +15,14 @@ ENV ROOT_USER docker
 ENV ROOT_PASSWORD docker
 
 RUN    /etc/init.d/postgresql start &&\
+psql --command "update pg_database set datallowconn = TRUE where datname = 'template0';" &&\
+psql --command "\c template0" &&\
+psql --command "update pg_database set datistemplate = FALSE where datname = 'template1';" &&\
+psql --command "drop database template1;" &&\
+psql --command "create database template1 with template = template0 encoding = 'UTF8';" &&\
+psql --command "update pg_database set datistemplate = TRUE where datname = 'template1';" &&\
+psql --command "\c template1" &&\
+psql --command "update pg_database set datallowconn = FALSE where datname = 'template0';" &&\
 psql --command "CREATE USER ${ROOT_USER} WITH SUPERUSER PASSWORD '${ROOT_PASSWORD}';" &&\
 /etc/init.d/postgresql stop
 

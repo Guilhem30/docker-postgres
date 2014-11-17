@@ -4,7 +4,9 @@ MAINTAINER  Guilhem Berna <gberna@phosphore.eu>
 ENV HOME /root
 CMD ["/sbin/my_init"]
 
-
+RUN locale-gen --no-purge en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+RUN update-locale LANG=en_US.UTF-8
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y postgresql-9.3 postgresql-contrib-9.3
@@ -15,14 +17,6 @@ ENV ROOT_USER docker
 ENV ROOT_PASSWORD docker
 
 RUN    /etc/init.d/postgresql start &&\
-psql --command "update pg_database set datallowconn = TRUE where datname = 'template0';" &&\
-psql --command "\c template0" &&\
-psql --command "update pg_database set datistemplate = FALSE where datname = 'template1';" &&\
-psql --command "drop database template1;" &&\
-psql --command "create database template1 with template = template0 encoding = 'UTF8';" &&\
-psql --command "update pg_database set datistemplate = TRUE where datname = 'template1';" &&\
-psql --command "\c template1" &&\
-psql --command "update pg_database set datallowconn = FALSE where datname = 'template0';" &&\
 psql --command "CREATE USER ${ROOT_USER} WITH SUPERUSER PASSWORD '${ROOT_PASSWORD}';" &&\
 /etc/init.d/postgresql stop
 
@@ -39,6 +33,12 @@ USER root
 RUN mkdir /etc/service/postgresql
 ADD run_postgresql.sh /etc/service/postgresql/run
 RUN chmod +x /etc/service/postgresql/run
+
+#Fix dockerhub autobuild error
+run mv /etc/ssl/private /etc/ssl/private~ &&\
+cp -pr /etc/ssl/private~ /etc/ssl/private &&\
+rm -rf /etc/ssl/private~
+
 # Expose the postgre port
 #EXPOSE 5432
 

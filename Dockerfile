@@ -4,9 +4,9 @@ MAINTAINER  Guilhem Berna <gberna@phosphore.eu>
 ENV HOME /root
 CMD ["/sbin/my_init"]
 
-RUN locale-gen --no-purge en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
-RUN update-locale LANG=en_US.UTF-8
+RUN locale-gen --no-purge ${LC_ALL}
+RUN update-locale LANG=${LC_ALL}
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y postgresql-9.3 postgresql-contrib-9.3

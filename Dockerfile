@@ -13,14 +13,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
 USER postgres
 
-ENV ROOT_USER docker
-ENV ROOT_PASSWORD docker
-
-RUN    /etc/init.d/postgresql start &&\
-psql --command "CREATE USER ${ROOT_USER} WITH SUPERUSER PASSWORD '${ROOT_PASSWORD}';" &&\
-/etc/init.d/postgresql stop
-
-
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible. 
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf

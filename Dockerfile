@@ -7,9 +7,9 @@ CMD ["/sbin/my_init"]
 ENV LC_ALL en_US.UTF-8
 RUN locale-gen --no-purge ${LC_ALL}
 RUN update-locale LANG=${LC_ALL}
-RUN export DEBIAN_FRONTEND=noninteractive && \
+RUN DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install -y postgresql-9.3 postgresql-contrib-9.3
+    apt-get install -yq postgresql-9.3 postgresql-contrib-9.3
 
 USER postgres
 

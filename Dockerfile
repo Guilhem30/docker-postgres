@@ -26,11 +26,6 @@ RUN mkdir /etc/service/postgresql
 ADD run_postgresql.sh /etc/service/postgresql/run
 RUN chmod +x /etc/service/postgresql/run
 
-#Fix dockerhub autobuild error
-run mv /etc/ssl/private /etc/ssl/private~ &&\
-cp -pr /etc/ssl/private~ /etc/ssl/private &&\
-rm -rf /etc/ssl/private~
-
 # Expose the postgre port
 #EXPOSE 5432
 

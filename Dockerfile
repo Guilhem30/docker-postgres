@@ -1,4 +1,4 @@
-FROM        phusion/baseimage:0.9.15
+FROM        guilhem30/sudokeys
 MAINTAINER  Guilhem Berna <gberna@phosphore.eu>
 
 ENV HOME /root
@@ -32,12 +32,6 @@ RUN touch firstrun
 # EXPOSE 5432
 
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
-
-
-# Add my public keys
-ADD pubkeys /tmp/pubkeys
-RUN cat /tmp/pubkeys/*.pub >> /root/.ssh/authorized_keys && rm -rf /tmp/pubkeys/
-EXPOSE 22
 
 # Clean up for smaller image
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

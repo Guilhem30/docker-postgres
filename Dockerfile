@@ -26,8 +26,10 @@ RUN mkdir /etc/service/postgresql
 ADD run_postgresql.sh /etc/service/postgresql/run
 RUN chmod +x /etc/service/postgresql/run
 
+RUN touch firstrun
+
 # Expose the postgre port
-#EXPOSE 5432
+EXPOSE 5432
 
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
